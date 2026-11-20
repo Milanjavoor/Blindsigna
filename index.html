@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlindToken | Anonymous Token System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">B</div>
+            <div><h2>BlindToken</h2><p>Privacy Protocol</p></div>
+        </div>
+        <nav class="navigation">
+            <a href="#dashboard" class="nav-link active"><span>▦</span> Dashboard</a>
+            <a href="#request" class="nav-link"><span>＋</span> Request Token</a>
+            <a href="#redeem" class="nav-link"><span>↗</span> Redeem Token</a>
+            <a href="#activity" class="nav-link"><span>◷</span> Activity</a>
+        </nav>
+        <div class="sidebar-bottom"><span class="status-dot"></span><span>Local demo environment</span></div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">PRIVACY INFRASTRUCTURE</p>
+                <h1>Anonymous Token Dashboard</h1>
+                <p class="subtitle">Issue, inspect and redeem privacy-preserving tokens.</p>
+            </div>
+            <div class="user-badge"><div class="avatar">U</div><span>Demo User</span></div>
+        </header>
+
+        <div class="notice">
+            <strong>Educational prototype:</strong>
+            This version performs real RSA blind-signature mathematics, but uses textbook RSA
+            and is not suitable for production or real assets.
+        </div>
+
+        <section class="stats-grid">
+            <article class="stat-card"><p>Total Issuance Requests</p><h2 id="request-count">0</h2><span>Aggregate server count</span></article>
+            <article class="stat-card"><p>Redeemed Tokens</p><h2 id="redeemed-count">0</h2><span>Unique successful redemptions</span></article>
+            <article class="stat-card"><p>System Status</p><h2 class="status-text" id="system-status">Connecting</h2><span id="system-detail">Checking backend</span></article>
+        </section>
+
+        <section class="workspace">
+            <article class="panel" id="request">
+                <div class="panel-heading"><div><p class="eyebrow">STEP 01</p><h2>Request a Token</h2></div><div class="panel-icon">＋</div></div>
+                <p class="description">Your browser creates and blinds the token. The issuer signs only the blinded value.</p>
+                <label for="token-purpose">Token purpose</label>
+                <select id="token-purpose">
+                    <option value="Access Pass">Access Pass</option>
+                    <option value="Anonymous Credential">Anonymous Credential</option>
+                    <option value="Digital Voucher">Digital Voucher</option>
+                </select>
+                <label for="token-note">Optional note (display only)</label>
+                <input type="text" id="token-note" placeholder="Enter a short description" maxlength="100">
+                <button class="primary-button" id="request-button">Create Blind-Signed Token</button>
+                <p class="helper-text">The note is not included in the signed token.</p>
+            </article>
+
+            <article class="panel" id="token-panel">
+                <div class="panel-heading"><div><p class="eyebrow">TOKEN DETAILS</p><h2>Your Token</h2></div><div class="panel-icon">◇</div></div>
+                <div id="empty-token" class="empty-state">
+                    <div class="empty-icon">◇</div><h3>No token created</h3>
+                    <p>Request a token to see its details here.</p>
+                </div>
+                <div id="token-details" hidden>
+                    <div class="token-status"><span class="status-dot"></span><span id="token-state">Signed token created</span></div>
+                    <p class="field-title">Token ID (encoded payload)</p>
+                    <div class="code-field"><code id="token-id">Not available</code><button id="copy-button" class="secondary-button">Copy package</button></div>
+                    <p class="field-title">Purpose</p><p id="display-purpose" class="field-value">—</p>
+                    <p class="field-title">Blind signature (hex)</p>
+                    <div class="signature-box"><code id="signature-value">Not generated</code></div>
+                    <p class="helper-text">Keep the token ID and signature together. The issuer does not receive the unblinded token.</p>
+                </div>
+            </article>
+        </section>
+
+        <section class="panel redemption-panel" id="redeem">
+            <div class="panel-heading"><div><p class="eyebrow">STEP 02</p><h2>Redeem a Token</h2></div><div class="panel-icon">↗</div></div>
+            <p class="description">Submit the token ID and signature. The server verifies the signature and rejects a second redemption.</p>
+            <label for="redeem-id">Token ID</label>
+            <textarea id="redeem-id" rows="2" placeholder="Paste the token ID"></textarea>
+            <label for="redeem-signature">Signature (hex)</label>
+            <textarea id="redeem-signature" rows="3" placeholder="Paste the signature"></textarea>
+            <button class="primary-button" id="redeem-button">Verify and Redeem Token</button>
+            <div id="redemption-result" class="result-message" hidden></div>
+        </section>
+
+        <section class="panel activity-panel" id="activity">
+            <div class="panel-heading"><div><p class="eyebrow">RECENT EVENTS</p><h2>Activity History</h2></div><span class="activity-label">Current browser session</span></div>
+            <div id="activity-list" class="activity-list"><div class="empty-activity">No activity yet.</div></div>
+        </section>
+
+        <footer class="footer">
+            <p>BlindToken © 2026 | Educational cryptography prototype</p>
+            <p>Textbook RSA blind-signature demonstration — not RFC 9474</p>
+        </footer>
+    </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
